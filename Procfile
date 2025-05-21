@@ -1,1 +1,1 @@
-gunicorn sexshop.wsgi:application
+web: gunicorn sexshop.wsgi:application
