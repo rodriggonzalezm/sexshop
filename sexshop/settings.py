@@ -1,19 +1,47 @@
-# Django settings (simplificado para ejemplo)
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 SECRET_KEY = 'django-insecure-secret-key'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-INSTALLED_APPS = ['django.contrib.staticfiles', 'catalogo']
+
+INSTALLED_APPS = [
+    'django.contrib.staticfiles',
+    'catalogo',
+]
+
+MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
+    # añade aquí otros middleware si usas
+]
+
 ROOT_URLCONF = 'sexshop.urls'
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media/'
+
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': ['templates'],
+    'DIRS': [BASE_DIR / 'templates'],
     'APP_DIRS': True,
-    'OPTIONS': {'context_processors': [
-        'django.template.context_processors.debug',
-        'django.template.context_processors.request',
-    ]},
+    'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+        ],
+    },
 }]
-DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'db.sqlite3'}}
+
+WSGI_APPLICATION = 'sexshop.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Para producción y Gunicorn
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
