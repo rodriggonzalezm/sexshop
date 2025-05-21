@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <title>{{ meta_title }}</title>
+    <meta name='description' content='{{ meta_description }}'>
+</head>
+<body>
+    <h1>Catálogo de Productos</h1>
+    <ul>
+    {% for producto in productos %}
+        <li>
+            {{ producto.nombre }} - ${{ producto.precio }}<br>
+            <a href='https://wa.me/56912345678?text=Hola,%20quiero%20comprar%20{{ producto.nombre }}%20código:%20{{ producto.codigo }}' target='_blank'>Comprar por WhatsApp</a>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
