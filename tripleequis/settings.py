@@ -29,7 +29,12 @@ SECRET_KEY = 'django-insecure-jh4a5)63isczn#ve(%@wty&3=h1h2wtd&38wy@89)v47o-7f4h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    os.getenv('RENDER_EXTERNAL_HOSTNAME'),  # por si después usás Render
+    'sexshop-production-7129.up.railway.app',  # ← este es el dominio de Railway
+]
 
 
 # Application definition
