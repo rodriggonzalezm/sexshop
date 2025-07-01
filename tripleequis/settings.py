@@ -156,7 +156,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://tripleequis.cl",
-    "https://www.tripleequis.cl"
+    "https://www.tripleequis.cl",
+    "https://sexshop-production-7129.up.railway.app"
 ]
+
 
 #te amo mucho bebe
