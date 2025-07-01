@@ -1,1 +1,1 @@
-web: gunicorn tripleequis.wsgi --log-file -
+web: gunicorn tripleequis.wsgi --bind 0.0.0.0:$PORT
