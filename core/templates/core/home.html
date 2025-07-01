@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sexshop en Concepción | Triple Equis: Placer, Diversidad e Inclusión{% endblock %}
+
+{% block extra_head %}
+<meta name="description"
+  content="Triple Equis, el mejor sexshop en Concepción, Chile. Encuentra juguetes sexuales, lencería erótica y accesorios inclusivos para tu placer seguro y sin prejuicios." />
+<meta name="keywords"
+  content="sexshop, Concepción, Chile, juguetes sexuales, lencería erótica, productos para adultos, inclusividad, placer, diversidad" />
+
+<!-- Datos estructurados JSON-LD para SEO Local -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Triple Equis",
+    "description": "Sexshop en Concepción que ofrece productos eróticos, lencería y accesorios para un placer inclusivo y seguro.",
+    "image": "https://tu-dominio.com/static/images/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Siempre Viva 123",
+      "addressLocality": "Concepción",
+      "addressRegion": "Biobío",
+      "postalCode": "0000000",
+      "addressCountry": "CL"
+    },
+    "telephone": "+56-9-1234-5678",
+    "url": "https://tu-dominio.com",
+    "openingHours": "Mo-Sa 10:00-20:00",
+    "sameAs": [
+      "https://www.facebook.com/tripleequis",
+      "https://www.instagram.com/tripleequis"
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="titulo-principal" class="max-w-4xl mx-auto px-6 py-16 text-center select-none">
+  <h1 id="titulo-principal"
+    class="text-4xl md:text-6xl font-extrabold text-pink-700 mb-8 leading-snug max-w-4xl mx-auto text-center drop-shadow-sm">
+    Bienvenido a
+    <span class="text-pink-900 font-extrabold">Triple Equis</span>,<br>
+    tu sexshop en
+    <span class="text-pink-600 font-semibold">Concepción, Chile</span>
+  </h1>
+
+
+
+
+  <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-700 mb-10 leading-relaxed">
+    Descubrí productos eróticos y sensuales en un espacio inclusivo, seguro y libre de prejuicios. En <strong>Triple
+      Equis</strong> celebramos la diversidad, el consentimiento y el placer para todes 💜.
+  </p>
+
+  <a href="{% url 'catalogo' %}" role="button" aria-label="Explorar catálogo de productos eróticos"
+    class="inline-block bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-4 focus:ring-pink-300 text-white font-semibold py-4 px-10 rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95">
+    Explorar Catálogo Erótico
+  </a>
+
+  <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left max-w-5xl mx-auto">
+    <article class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+      <h2 class="text-xl font-semibold mb-3 text-pink-600">Variedad y Calidad</h2>
+      <p class="text-gray-700 leading-relaxed">
+        Amplio catálogo con juguetes sexuales, lencería erótica, lubricantes y accesorios de marcas reconocidas y
+        seleccionadas para ti.
+      </p>
+    </article>
+    <article class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+      <h2 class="text-xl font-semibold mb-3 text-pink-600">Espacio Inclusivo</h2>
+      <p class="text-gray-700 leading-relaxed">
+        Un ambiente seguro, respetuoso y sin prejuicios, donde todes pueden sentirse cómodos explorando su placer y
+        diversidad.
+      </p>
+    </article>
+    <article class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+      <h2 class="text-xl font-semibold mb-3 text-pink-600">Envíos rápidos y discretos</h2>
+      <p class="text-gray-700 leading-relaxed">
+        Entregas rápidas en Concepción y región, con embalaje discreto y seguro para tu total privacidad.
+      </p>
+    </article>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Contacto | Triple Equis, Sexshop en Concepción{% endblock %}
+
+{% block content %}
+<section class="max-w-md mx-auto mt-12 p-6 bg-white rounded-xl shadow-lg">
+  <h2 class="text-3xl font-extrabold text-pink-600 mb-8 text-center">
+    Contacto por WhatsApp
+  </h2>
+
+  <form id="whatsappForm" class="space-y-6" novalidate>
+    <div>
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        required
+        minlength="2"
+        placeholder="Tu nombre completo"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2
+               focus:ring-pink-500 focus:border-pink-500
+               placeholder-gray-400
+               transition duration-150 ease-in-out"
+        aria-describedby="nombreHelp"
+      />
+      <p id="nombreHelp" class="mt-1 text-xs text-gray-500">Por favor ingresa tu nombre completo.</p>
+    </div>
+
+    <div>
+      <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+      <textarea
+        id="mensaje"
+        name="mensaje"
+        rows="4"
+        required
+        minlength="5"
+        placeholder="Escribe tu consulta o mensaje aquí"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2
+               focus:ring-pink-500 focus:border-pink-500
+               placeholder-gray-400
+               transition duration-150 ease-in-out"
+        aria-describedby="mensajeHelp"
+      ></textarea>
+      <p id="mensajeHelp" class="mt-1 text-xs text-gray-500">Describe tu consulta de manera clara.</p>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-md
+             focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1
+             transition-colors duration-200"
+    >
+      Enviar por WhatsApp
+    </button>
+  </form>
+</section>
+
+<script>
+  document.getElementById('whatsappForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const nombreInput = document.getElementById('nombre');
+    const mensajeInput = document.getElementById('mensaje');
+
+    const nombre = nombreInput.value.trim();
+    const mensaje = mensajeInput.value.trim();
+
+    if (nombre.length < 2) {
+      alert("Por favor ingresa un nombre válido de al menos 2 caracteres.");
+      nombreInput.focus();
+      return;
+    }
+
+    if (mensaje.length < 5) {
+      alert("Por favor escribe un mensaje de al menos 5 caracteres.");
+      mensajeInput.focus();
+      return;
+    }
+
+    const texto = `Hola! Soy ${nombre}. ${mensaje}`;
+    const telefono = "5492991234567"; // Reemplaza con tu número de WhatsApp con código país
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+
+    window.open(url, '_blank');
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+{% load tz %}
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{% block title %}Triple Equis | Sexshop en Concepción{% endblock %}</title>
+
+    <meta name="description"
+        content="Triple Equis es un sexshop en Concepción, Chile. Ofrecemos juguetes sexuales, lencería, lubricantes y más para el placer individual o en pareja.">
+    <meta name="keywords"
+        content="sexshop, concepción, juguetes sexuales, lencería erótica, tienda erótica, productos para adultos, lubricantes íntimos, Triple Equis">
+    <meta name="author" content="Triple Equis">
+    <meta name="robots" content="index, follow">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-pink-50 text-gray-800 font-sans leading-relaxed min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-md sticky top-0 z-30">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="{% url 'home' %}">
+                <h1 class="text-3xl font-bold text-pink-500 tracking-wide">Triple Equis</h1>
+            </a>
+            <!-- Botón menú móvil -->
+            <button id="btn-menu" aria-label="Abrir menú" class="md:hidden text-pink-500 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            <nav id="nav-menu"
+                class="hidden md:flex space-x-6 text-sm items-center text-gray-600 font-semibold tracking-wide">
+                <a href="{% url 'home' %}" class="hover:text-pink-500 transition">Inicio</a>
+                <a href="{% url 'catalogo' %}" class="hover:text-pink-500 transition">Catálogo</a>
+                <a href="{% url 'contacto' %}" class="hover:text-pink-500 transition">Contacto</a>
+
+                <!-- Botón abrir carrito -->
+                <button id="btn-abrir-carrito" aria-label="Abrir carrito"
+                    class="ml-4 bg-pink-600 text-white p-3 rounded-full shadow-lg flex items-center relative hover:bg-pink-700 transition">
+                    🛒
+                    {% if total_carrito and total_carrito > 0 %}
+                    <span id="contador-carrito"
+                        class="absolute -top-2 -right-2 bg-pink-700 text-white text-xs font-bold rounded-full px-2">
+                        {{ total_carrito }}
+                    </span>
+                    {% endif %}
+                </button>
+            </nav>
+        </div>
+
+        <!-- Menú móvil -->
+        <nav id="nav-menu-mobile"
+            class="md:hidden bg-white shadow-md fixed top-16 left-0 right-0 z-40 hidden flex-col space-y-2 py-4 px-6 text-center text-gray-700 font-semibold tracking-wide">
+
+            <button id="btn-abrir-carrito-mobile" aria-label="Abrir carrito"
+                class="relative mx-auto w-12 h-12 bg-pink-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                🛒
+                {% if total_carrito and total_carrito > 0 %}
+                <span id="contador-carrito-mobile"
+                    class="absolute -top-1 -right-1 bg-pink-700 text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 leading-tight">
+                    {{ total_carrito }}
+                </span>
+                {% endif %}
+            </button>
+
+            <a href="{% url 'home' %}" class="block py-2 hover:text-pink-500 transition">Inicio</a>
+            <a href="{% url 'catalogo' %}" class="block py-2 hover:text-pink-500 transition">Catálogo</a>
+            <a href="{% url 'contacto' %}" class="block py-2 hover:text-pink-500 transition">Contacto</a>
+        </nav>
+
+    </header>
+
+    <main class="flex-1 container mx-auto px-4 py-8 max-w-7xl w-full">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-white shadow-inner mt-12 py-6 text-center text-sm text-gray-500">
+        © {{ now|date:"Y" }} Triple Equis – Sexshop en Concepción, Chile.
+    </footer>
+
+    <!-- Modal carrito -->
+    <div id="modal-carrito"
+        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50 px-4">
+        <div
+            class="bg-white rounded-lg shadow-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative flex flex-col">
+            <button id="btn-cerrar-carrito"
+                class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-3xl font-bold focus:outline-none">&times;</button>
+
+            <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Tu carrito</h2>
+
+            {% if carrito %}
+            <ul id="lista-carrito" class="space-y-4">
+                {% for codigo, item in carrito.items %}
+                <li class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 rounded p-3"
+                    data-codigo="{{ codigo }}" data-precio="{{ item.precio }}">
+                    <div class="flex-1">
+                        <p class="font-medium text-lg">{{ item.nombre }}</p>
+                        <h3 class="text-sm text-gray-600">{{ codigo }}</h3>
+                        <div class="flex items-center space-x-2 mt-2">
+                            <label for="cantidad-{{ codigo }}" class="text-sm">Cantidad:</label>
+                            <input type="number" min="1" id="cantidad-{{ codigo }}" name="cantidad"
+                                value="{{ item.cantidad }}"
+                                class="border border-gray-300 rounded w-16 text-center cantidad-input"
+                                data-codigo="{{ codigo }}">
+                        </div>
+                        <p class="text-sm mt-1">Precio unitario: ${{ item.precio|floatformat:0 }}</p>
+                        <p class="text-sm font-semibold">Subtotal: $<span class="subtotal-item">0</span></p>
+                    </div>
+                    <form action="{% url 'eliminar_del_carrito' codigo=codigo %}" method="post"
+                        class="mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">
+                            Eliminar
+                        </button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="mt-6">
+                <label for="selector-envio" class="font-semibold block mb-2">Selecciona región de envío:</label>
+                <select id="selector-envio"
+                    class="border border-gray-300 rounded w-full p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                    <option value="concepcion" {% if envio == 'concepcion' %}selected{% endif %}>Concepción - $3990
+                    </option>
+                    <option value="region" {% if envio == 'region' %}selected{% endif %}>Región - $5990</option>
+                </select>
+
+                <p id="mensaje-envio" class="text-sm text-gray-600"></p>
+
+
+                <div class="text-right text-gray-800 mb-6 space-y-1">
+                    <p>Subtotal: $<span id="subtotal-general">0</span></p>
+                    <p>Envío: $<span id="costo-envio">0</span></p>
+                    <p class="font-bold text-xl text-pink-600">Total: $<span id="total-general">0</span></p>
+                </div>
+
+                <button id="btn-whatsapp" type="button"
+                    class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 rounded w-full">
+                    Contactar por WhatsApp
+                </button>
+            </div>
+            {% else %}
+            <p class="text-center font-semibold text-gray-500">No tienes productos en el carrito.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Variables para modal carrito
+        const modalCarrito = document.getElementById('modal-carrito');
+        const btnAbrirCarrito = document.getElementById('btn-abrir-carrito');
+        const btnAbrirCarritoMobile = document.getElementById('btn-abrir-carrito-mobile');
+        const btnCerrarCarrito = document.getElementById('btn-cerrar-carrito');
+
+        // Abrir modal carrito
+        [btnAbrirCarrito, btnAbrirCarritoMobile].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    modalCarrito.classList.remove('hidden');
+                    actualizarTotales();
+                });
+            }
+        });
+
+        // Cerrar modal carrito
+        if (btnCerrarCarrito) {
+            btnCerrarCarrito.addEventListener('click', () => {
+                modalCarrito.classList.add('hidden');
+            });
+        }
+
+        // Cerrar modal si se hace click fuera del contenido
+        modalCarrito.addEventListener('click', (e) => {
+            if (e.target === modalCarrito) {
+                modalCarrito.classList.add('hidden');
+            }
+        });
+
+        // Actualiza subtotales y totales
+        function actualizarTotales() {
+            const listaItems = document.querySelectorAll('#lista-carrito li');
+            let subtotalGeneral = 0;
+
+            listaItems.forEach((li) => {
+                const precio = parseFloat(li.dataset.precio);
+                const inputCantidad = li.querySelector('.cantidad-input');
+                let cantidad = parseInt(inputCantidad?.value);
+                if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
+                const subtotal = precio * cantidad;
+                subtotalGeneral += subtotal;
+                li.querySelector('.subtotal-item').textContent = subtotal.toFixed(0);
+            });
+
+            document.getElementById('subtotal-general').textContent = subtotalGeneral.toFixed(0);
+
+            // Costo de envío según selector
+            const selectorEnvio = document.getElementById('selector-envio');
+            let costoEnvio = 0;
+            if (selectorEnvio) {
+                if (selectorEnvio.value === 'concepcion') {
+                    costoEnvio = 3990;
+                } else if (selectorEnvio.value === 'region') {
+                    costoEnvio = 5990;
+                }
+                document.getElementById('costo-envio').textContent = costoEnvio.toFixed(0);
+            }
+
+            const total = subtotalGeneral + costoEnvio;
+            document.getElementById('total-general').textContent = total.toFixed(0);
+        }
+
+        // Eventos para inputs cantidad y selector envío
+        document.querySelectorAll('.cantidad-input').forEach((input) => {
+            input.addEventListener('change', () => {
+                if (input.value < 1) input.value = 1;
+                actualizarTotales();
+            });
+        });
+
+        const selectorEnvio = document.getElementById('selector-envio');
+        if (selectorEnvio) {
+            selectorEnvio.addEventListener('change', actualizarTotales);
+        }
+
+        // Botón WhatsApp para enviar pedido con códigos, cantidades y zona de envío
+        const btnWhatsApp = document.getElementById('btn-whatsapp');
+        if (btnWhatsApp) {
+            btnWhatsApp.addEventListener('click', () => {
+                const listaItems = document.querySelectorAll('#lista-carrito li');
+                if (listaItems.length === 0) {
+                    alert('Tu carrito está vacío.');
+                    return;
+                }
+
+                let mensaje = 'Hola, quiero realizar un pedido:\n';
+
+                listaItems.forEach((li) => {
+                    const textoCodigo = li.querySelector('h3')?.textContent.trim() || '';
+                    // Si el texto incluye "Código: " lo eliminamos para que quede solo el código
+                    const codigo = textoCodigo.startsWith('Código: ') ? textoCodigo.slice(8) : textoCodigo;
+                    const cantidad = li.querySelector('.cantidad-input')?.value;
+
+                    if (codigo && cantidad && parseInt(cantidad) > 0) {
+                        mensaje += `- Código: ${codigo} x ${cantidad}\n`;
+                    }
+                });
+
+                // Texto más amigable para la zona de envío
+                const nombresZonas = {
+                    'concepcion': 'Concepción',
+                    'region': 'Región'
+                };
+                const selectorEnvio = document.getElementById('selector-envio');
+                const zonaEnvio = selectorEnvio ? (nombresZonas[selectorEnvio.value] || selectorEnvio.value) : 'No especificada';
+                mensaje += `Zona de envío: ${zonaEnvio}\n`;
+
+                const total = document.getElementById('total-general').textContent;
+                mensaje += `Total a pagar: $${total}\n`;
+
+                // Abrir WhatsApp con mensaje codificado
+                window.open(`https://wa.me/56912345678?text=${encodeURIComponent(mensaje)}`, '_blank');
+            });
+        }
+
+        // Código para menú móvil
+        const btnMenu = document.getElementById('btn-menu');
+        const navMenuMobile = document.getElementById('nav-menu-mobile');
+        if (btnMenu && navMenuMobile) {
+            btnMenu.addEventListener('click', () => {
+                navMenuMobile.classList.toggle('hidden');
+            });
+        }
+
+        // Al cargar la página, actualizamos los totales si el modal está visible
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!modalCarrito.classList.contains('hidden')) {
+                actualizarTotales();
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>
