@@ -27,14 +27,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jh4a5)63isczn#ve(%@wty&3=h1h2wtd&38wy@89)v47o-7f4h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    os.getenv('RENDER_EXTERNAL_HOSTNAME'),  # por si después usás Render
-    'sexshop-production-7129.up.railway.app',  # ← este es el dominio de Railway
+    os.getenv('RENDER_EXTERNAL_HOSTNAME'),  # si usás Render
+    'sexshop-production-7129.up.railway.app',
+    'tripleequis.cl',
+    'www.tripleequis.cl',
 ]
+
 
 
 # Application definition
@@ -139,3 +142,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SECURE_SSL_REDIRECT = True
