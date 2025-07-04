@@ -5,53 +5,58 @@
 {% endblock %}
 
 {% block content %}
-<section class="max-w-5xl mx-auto px-4 py-10">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<section class="max-w-6xl mx-auto px-4 py-12">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
     
     <!-- Galería de imágenes -->
-    <div>
+    <div class="space-y-4">
       {% if producto.imagen %}
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
-             class="w-full rounded-xl object-cover shadow-lg mb-4">
+        <div class="relative group">
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+               class="rounded-xl w-full h-auto object-cover shadow-xl transition-transform duration-300 group-hover:scale-105">
+          <span class="absolute top-2 left-2 bg-pink-600 text-white text-xs px-3 py-1 rounded-full shadow-md uppercase">Nuevo</span>
+        </div>
       {% else %}
-        <div class="bg-gray-200 h-64 rounded-xl flex items-center justify-center text-gray-400 italic">
+        <div class="bg-gray-200 h-72 flex items-center justify-center rounded-xl text-gray-400 italic shadow-inner">
           Imagen no disponible
         </div>
       {% endif %}
 
       {% if imagenes_adicionales %}
-        <div class="grid grid-cols-4 gap-2 mt-4">
+        <div class="grid grid-cols-4 gap-2">
           {% for img in imagenes_adicionales %}
             <img src="{{ img.imagen.url }}" alt="Imagen adicional de {{ producto.nombre }}"
-                 class="h-20 w-full object-cover rounded-md border hover:scale-105 transition transform duration-200">
+                 class="h-20 w-full object-cover rounded-lg border shadow-sm hover:shadow-lg hover:scale-105 transition duration-200 cursor-pointer">
           {% endfor %}
         </div>
       {% endif %}
     </div>
 
     <!-- Información del producto -->
-    <div class="flex flex-col">
-      <h1 class="text-3xl font-bold text-pink-600 mb-2">{{ producto.nombre }}</h1>
-      <p class="text-gray-500 text-sm mb-4">Código: <span class="font-mono">{{ producto.codigo }}</span></p>
-      <p class="text-lg text-gray-700 mb-4 leading-relaxed whitespace-pre-line">
+    <div>
+      <h1 class="text-4xl font-extrabold text-pink-700 mb-4">{{ producto.nombre }}</h1>
+      <p class="text-sm text-gray-500 mb-6">Código: <span class="font-mono">{{ producto.codigo }}</span></p>
+
+      <p class="text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-6">
         {{ producto.descripcion|linebreaksbr }}
       </p>
-      <p class="text-2xl font-extrabold text-pink-600 mb-6">$ {{ producto.precio|floatformat:0 }}</p>
+
+      <p class="text-3xl font-bold text-pink-600 mb-8">$ {{ producto.precio|floatformat:0 }}</p>
 
       <form method="post" action="{% url 'agregar_al_carrito' producto.codigo %}" class="w-full">
         {% csrf_token %}
         <button type="submit"
-                class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 w-full rounded-md shadow-md transition-colors duration-200">
+                class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg w-full text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 transition">
           🛒 Agregar al carrito
         </button>
       </form>
-    </div>
-  </div>
 
-  <div class="mt-12 text-center">
-    <a href="{% url 'catalogo' %}" class="text-pink-500 hover:underline text-sm">
-      ← Volver al catálogo
-    </a>
+      <div class="mt-6 text-sm text-center">
+        <a href="{% url 'catalogo' %}" class="text-pink-500 hover:text-pink-700 hover:underline transition">
+          ← Volver al catálogo
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
