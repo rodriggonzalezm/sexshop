@@ -5,41 +5,28 @@
 {% endblock %}
 
 {% block content %}
-<section class="max-w-6xl mx-auto px-4 py-12" x-data="gallery()">
+<section class="max-w-6xl mx-auto px-4 py-12">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
     
     <!-- Galería de imágenes -->
     <div class="space-y-4">
-      <div class="relative group rounded-xl overflow-hidden shadow-xl">
-        <template x-if="mainImage">
-          <img :src="mainImage" :alt="`Imagen principal de ${'{{ producto.nombre }}'}`"
-               class="w-full h-auto object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
-               loading="lazy"
-          >
-        </template>
-        <template x-if="!mainImage">
-          <div class="bg-gray-200 h-72 flex items-center justify-center rounded-xl text-gray-400 italic shadow-inner">
-            Imagen no disponible
-          </div>
-        </template>
-
-        <span class="absolute top-3 left-3 bg-pink-600 text-white text-xs px-3 py-1 rounded-full shadow-md uppercase select-none">
-          Nuevo
-        </span>
-      </div>
+      {% if producto.imagen %}
+        <div class="relative group">
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+               class="rounded-xl w-full h-auto object-cover shadow-xl transition-transform duration-300 group-hover:scale-105">
+          <span class="absolute top-2 left-2 bg-pink-600 text-white text-xs px-3 py-1 rounded-full shadow-md uppercase">Nuevo</span>
+        </div>
+      {% else %}
+        <div class="bg-gray-200 h-72 flex items-center justify-center rounded-xl text-gray-400 italic shadow-inner">
+          Imagen no disponible
+        </div>
+      {% endif %}
 
       {% if imagenes_adicionales %}
-        <div class="grid grid-cols-4 gap-3">
+        <div class="grid grid-cols-4 gap-2">
           {% for img in imagenes_adicionales %}
-            <img 
-              src="{{ img.imagen.url }}" 
-              alt="Imagen adicional de {{ producto.nombre }}"
-              class="h-20 w-full object-cover rounded-lg border-2 border-transparent cursor-pointer shadow-sm transition transform hover:scale-110 hover:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-400"
-              @click="setMainImage('{{ img.imagen.url }}')"
-              tabindex="0"
-              @keydown.enter.prevent="setMainImage('{{ img.imagen.url }}')"
-              @keydown.space.prevent="setMainImage('{{ img.imagen.url }}')"
-            >
+            <img src="{{ img.imagen.url }}" alt="Imagen adicional de {{ producto.nombre }}"
+                 class="h-20 w-full object-cover rounded-lg border shadow-sm hover:shadow-lg hover:scale-105 transition duration-200 cursor-pointer">
           {% endfor %}
         </div>
       {% endif %}
@@ -72,16 +59,4 @@
     </div>
   </div>
 </section>
-
-<script>
-  function gallery() {
-    return {
-      mainImage: '{{ producto.imagen.url if producto.imagen else "" }}',
-      setMainImage(url) {
-        this.mainImage = url;
-      }
-    }
-  }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 {% endblock %}
