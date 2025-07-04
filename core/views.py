@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
-from .models import Producto
+from .models import Producto, ImagenProducto
 
 
 def home(request):
@@ -12,6 +12,19 @@ def home(request):
         'total_carrito': total_carrito,
     })
 
+def producto_detalle(request, codigo):
+    producto = get_object_or_404(Producto, codigo=codigo, disponible=True)
+    imagenes_adicionales = ImagenProducto.objects.filter(producto=producto)
+
+    carrito = request.session.get("carrito", {})
+    total_carrito = sum(item["cantidad"] for item in carrito.values())
+
+    contexto = {
+        'producto': producto,
+        'imagenes_adicionales': imagenes_adicionales,
+        'total_carrito': total_carrito,
+    }
+    return render(request, 'core/producto_detalle.html', contexto)
 
 
 def catalogo(request):
@@ -35,7 +48,6 @@ def catalogo(request):
         'envio': envio,  # <--- aquí lo agregas
     }
     return render(request, 'core/catalogo.html', contexto)
-
 
 
 def agregar_al_carrito(request, codigo):
