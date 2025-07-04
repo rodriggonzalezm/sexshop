@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Producto, ImagenProducto  # <-- importamos ImagenProducto
+from .models import Producto, ImagenProducto, Categoria  # <-- importamos ImagenProducto
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+    search_fields = ('nombre',)
+
 
 class ImagenProductoInline(admin.TabularInline):  # o admin.StackedInline si prefieres
     model = ImagenProducto
@@ -8,8 +14,8 @@ class ImagenProductoInline(admin.TabularInline):  # o admin.StackedInline si pre
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'nombre', 'precio', 'disponible')
-    list_filter = ('disponible',)
+    list_display = ('codigo', 'nombre', 'precio', 'categoria', 'disponible')
+    list_editable = ('precio', 'categoria', 'disponible')
+    list_filter = ('disponible', 'categoria', 'precio')
     search_fields = ('nombre', 'codigo')
-    list_editable = ('disponible',)
-    inlines = [ImagenProductoInline]  # <-- aquí agregamos el inline
+    inlines = [ImagenProductoInline]
