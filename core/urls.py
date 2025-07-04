@@ -12,5 +12,5 @@ urlpatterns = [
     path('contacto/', views.contacto, name='contacto'),
 
     # 🔥 Esta es la línea nueva
-    path('producto/<str:codigo>/', producto_detalle, name='producto_detalle'),
+    path('producto/<str:codigo>/', views.producto_detalle, name='producto_detalle'),
 ]
