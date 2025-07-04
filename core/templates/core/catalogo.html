@@ -44,22 +44,24 @@ Catálogo de Productos Eróticos | Triple Equis, Sexshop en Concepción
         <p class="text-gray-400 text-sm mb-2">Código: <span class="font-mono">{{ producto.codigo }}</span></p>
         <p class="text-pink-600 font-extrabold text-lg mb-4">$ {{ producto.precio|floatformat:0 }}</p>
 
-        <form method="post" action="{% url 'agregar_al_carrito' producto.codigo %}" class="mt-auto">
-          {% csrf_token %}
-          <button type="submit"
-            class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200"
-            aria-label="Agregar {{ producto.nombre }} al carrito">
-            Agregar al carrito
-          </button>
-          <br> 
-          <a href="{% url 'producto_detalle' producto.codigo %}"
-            class="w-full block bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200 text-center"
-            role="button" aria-label="Ver detalles de {{ producto.nombre }}">
-            Ver detalles
-          </a>
+        <div class="mt-auto flex gap-2">
+          <form method="post" action="{% url 'agregar_al_carrito' producto.codigo %}" class="flex-1">
+            {% csrf_token %}
+            <button type="submit"
+              class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200"
+              aria-label="Agregar {{ producto.nombre }} al carrito">
+              🛒 Agregar al carrito
+            </button>
+          </form>
 
-        </form>
+          <a href="{% url 'producto_detalle' producto.codigo %}"
+            class="flex-1 bg-pink-400 hover:bg-pink-500 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-1 transition-colors duration-200 text-center"
+            role="button" aria-label="Ver detalles de {{ producto.nombre }}">
+            🔍 Ver detalles
+          </a>
+        </div>
       </div>
+
     </article>
     {% empty %}
     <p class="text-center text-gray-600 col-span-full">No hay productos disponibles en este momento.</p>
