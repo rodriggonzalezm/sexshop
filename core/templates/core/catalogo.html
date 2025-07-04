@@ -11,50 +11,57 @@ Catálogo de Productos Eróticos | Triple Equis, Sexshop en Concepción
   </h2>
 
   {% if messages %}
-    <div class="mb-6 max-w-3xl mx-auto">
-      {% for message in messages %}
-        <div class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded shadow-md transition-colors duration-300" role="alert" aria-live="polite">
-          <strong class="mr-1">¡Éxito!</strong>{{ message }}
-        </div>
-      {% endfor %}
+  <div class="mb-6 max-w-3xl mx-auto">
+    {% for message in messages %}
+    <div
+      class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded shadow-md transition-colors duration-300"
+      role="alert" aria-live="polite">
+      <strong class="mr-1">¡Éxito!</strong>{{ message }}
     </div>
+    {% endfor %}
+  </div>
   {% endif %}
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     {% for producto in productos %}
-      <article class="bg-white rounded-xl shadow-lg flex flex-col hover:shadow-2xl transition-shadow duration-300">
-        
-        <a href="{% url 'producto_detalle' producto.codigo %}" class="block hover:opacity-90 transition duration-200">
-          {% if producto.imagen %}
-            <img src="{{ producto.imagen.url }}"
-                 alt="Producto: {{ producto.nombre }}"
-                 class="rounded-t-xl h-56 w-full object-cover" loading="lazy">
-          {% else %}
-            <div class="bg-gray-200 h-56 flex items-center justify-center rounded-t-xl text-gray-400 italic select-none">
-              Imagen no disponible
-            </div>
-          {% endif %}
-        </a>
+    <article class="bg-white rounded-xl shadow-lg flex flex-col hover:shadow-2xl transition-shadow duration-300">
 
-        <div class="p-4 flex flex-col flex-grow">
-          <h3 class="font-semibold text-xl text-pink-700 mb-1 truncate" title="{{ producto.nombre }}">
-            <a href="{% url 'producto_detalle' producto.codigo %}">{{ producto.nombre }}</a>
-          </h3>
-          <p class="text-gray-400 text-sm mb-2">Código: <span class="font-mono">{{ producto.codigo }}</span></p>
-          <p class="text-pink-600 font-extrabold text-lg mb-4">$ {{ producto.precio|floatformat:0 }}</p>
-
-          <form method="post" action="{% url 'agregar_al_carrito' producto.codigo %}" class="mt-auto">
-            {% csrf_token %}
-            <button type="submit"
-                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200"
-                    aria-label="Agregar {{ producto.nombre }} al carrito">
-              Agregar al carrito
-            </button>
-          </form>
+      <a href="{% url 'producto_detalle' producto.codigo %}" class="block hover:opacity-90 transition duration-200">
+        {% if producto.imagen %}
+        <img src="{{ producto.imagen.url }}" alt="Producto: {{ producto.nombre }}"
+          class="rounded-t-xl h-56 w-full object-contain" loading="lazy">
+        {% else %}
+        <div class="bg-gray-200 h-56 flex items-center justify-center rounded-t-xl text-gray-400 italic select-none">
+          Imagen no disponible
         </div>
-      </article>
+        {% endif %}
+      </a>
+
+      <div class="p-4 flex flex-col flex-grow">
+        <h3 class="font-semibold text-xl text-pink-700 mb-1 truncate" title="{{ producto.nombre }}">
+          <a href="{% url 'producto_detalle' producto.codigo %}">{{ producto.nombre }}</a>
+        </h3>
+        <p class="text-gray-400 text-sm mb-2">Código: <span class="font-mono">{{ producto.codigo }}</span></p>
+        <p class="text-pink-600 font-extrabold text-lg mb-4">$ {{ producto.precio|floatformat:0 }}</p>
+
+        <form method="post" action="{% url 'agregar_al_carrito' producto.codigo %}" class="mt-auto">
+          {% csrf_token %}
+          <button type="submit"
+            class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200"
+            aria-label="Agregar {{ producto.nombre }} al carrito">
+            Agregar al carrito
+          </button>
+          <a href="{% url 'producto_detalle' producto.codigo %}"
+            class="w-full block bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-1 transition-colors duration-200 text-center"
+            role="button" aria-label="Ver detalles de {{ producto.nombre }}">
+            Ver detalles
+          </a>
+
+        </form>
+      </div>
+    </article>
     {% empty %}
-      <p class="text-center text-gray-600 col-span-full">No hay productos disponibles en este momento.</p>
+    <p class="text-center text-gray-600 col-span-full">No hay productos disponibles en este momento.</p>
     {% endfor %}
   </div>
 </section>
