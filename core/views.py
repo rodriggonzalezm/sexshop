@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
-from .models import Producto, ImagenProducto
+from .models import Producto, ImagenProducto, Categoria
+
 
 
 def home(request):
