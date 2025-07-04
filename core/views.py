@@ -28,7 +28,14 @@ def producto_detalle(request, codigo):
 
 
 def catalogo(request):
+    categoria_id = request.GET.get("categoria")
     productos = Producto.objects.filter(disponible=True)
+
+    if categoria_id:
+        productos = productos.filter(categoria_id=categoria_id)
+
+    categorias = Categoria.objects.all()
+
     carrito = request.session.get("carrito", {})
     total_carrito = sum(item["cantidad"] for item in carrito.values())
 
@@ -40,14 +47,17 @@ def catalogo(request):
 
     contexto = {
         'productos': productos,
+        'categorias': categorias,
+        'categoria_activa': int(categoria_id) if categoria_id else None,
         'total_carrito': total_carrito,
         'subtotal': subtotal,
         'costo_envio': costo_envio,
         'total': total,
         'carrito': carrito,
-        'envio': envio,  # <--- aquí lo agregas
+        'envio': envio,
     }
     return render(request, 'core/catalogo.html', contexto)
+
 
 
 def agregar_al_carrito(request, codigo):

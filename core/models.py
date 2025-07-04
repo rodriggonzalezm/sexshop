@@ -13,6 +13,7 @@ class Producto(models.Model):
     def __str__(self):
         return f"{self.nombre} ({self.codigo})"
 
+
 class ImagenProducto(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='imagenes_adicionales')
     imagen = CloudinaryField('imagen')
