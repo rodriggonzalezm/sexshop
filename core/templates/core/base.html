@@ -14,6 +14,8 @@
         content="sexshop, concepción, juguetes sexuales, lencería erótica, tienda erótica, productos para adultos, lubricantes íntimos, Triple Equis">
     <meta name="author" content="Triple Equis">
     <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqqbdnefo/image/upload/v1753903445/PHOTO-2025-07-21-13-06-01_p5n5ep.png">
+
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
@@ -22,9 +24,12 @@
 
     <header class="bg-white shadow-md sticky top-0 z-30">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{% url 'home' %}">
-                <h1 class="text-3xl font-bold text-pink-500 tracking-wide">Triple Equis</h1>
+            <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                <img src="https://res.cloudinary.com/dqqbdnefo/image/upload/v1753903445/PHOTO-2025-07-21-13-06-01_p5n5ep.png"
+                    alt="Triple Equis Logo" class="h-10 sm:h-12 w-auto object-contain">
             </a>
+
+
             <!-- Botón menú móvil -->
             <button id="btn-menu" aria-label="Abrir menú" class="md:hidden text-pink-500 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
@@ -127,9 +132,9 @@
                 <label for="selector-envio" class="font-semibold block mb-2">Selecciona región de envío:</label>
                 <select id="selector-envio"
                     class="border border-gray-300 rounded w-full p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <option value="concepcion" {% if envio == 'concepcion' %}selected{% endif %}>Concepción - $3990
+                    <option value="concepcion" {% if envio=='concepcion' %}selected{% endif %}>Concepción - $3990
                     </option>
-                    <option value="region" {% if envio == 'region' %}selected{% endif %}>Región - $5990</option>
+                    <option value="region" {% if envio=='region' %}selected{% endif %}>Región - $5990</option>
                 </select>
 
                 <p id="mensaje-envio" class="text-sm text-gray-600"></p>
@@ -265,7 +270,7 @@
                 mensaje += `Total a pagar: $${total}\n`;
 
                 // Abrir WhatsApp con mensaje codificado
-                window.open(`https://wa.me/56972832898?text=${encodeURIComponent(mensaje)}`, '_blank');
+                window.open(`https://wa.me/56932778399?text=${encodeURIComponent(mensaje)}`, '_blank');
             });
         }
 
