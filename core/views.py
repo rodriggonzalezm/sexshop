@@ -16,6 +16,17 @@ def home(request):
 def producto_detalle(request, codigo):
     producto = get_object_or_404(Producto, codigo=codigo, disponible=True)
     imagenes_adicionales = ImagenProducto.objects.filter(producto=producto)
+    
+    if request.method == 'POST':
+        form = ResenaForm(request.POST)
+        if form.is_valid():
+            resena = form.save(commit=False)
+            resena.producto = producto
+            resena.save()
+            messages.success(request, '¡Gracias por tu reseña!')
+            return redirect('producto_detalle', codigo=codigo)
+    else:
+        form = ResenaForm()
 
     carrito = request.session.get("carrito", {})
     total_carrito = sum(item["cantidad"] for item in carrito.values())
@@ -24,8 +35,23 @@ def producto_detalle(request, codigo):
         'producto': producto,
         'imagenes_adicionales': imagenes_adicionales,
         'total_carrito': total_carrito,
+        'form': form,
     }
     return render(request, 'core/producto_detalle.html', contexto)
+
+def agregar_resena(request, producto_id):
+    producto = get_object_or_404(Producto, pk=producto_id)
+    
+    if request.method == 'POST':
+        form = ResenaForm(request.POST)
+        if form.is_valid():
+            resena = form.save(commit=False)
+            resena.producto = producto
+            resena.save()
+            messages.success(request, '¡Gracias por tu reseña!')
+            return redirect('producto_detalle', codigo=producto.codigo)
+    
+    return redirect('producto_detalle', codigo=producto.codigo)
 
 
 def catalogo(request):
